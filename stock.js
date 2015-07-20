@@ -19,7 +19,7 @@ $(function () {
     })
 
 //-----EVENT LISTENER-------//
- $('#new-line').submit(function(e){
+ $('#new-stock').submit(function(e){
     e.preventDefault();
     console.log("im submitting a form")
 
