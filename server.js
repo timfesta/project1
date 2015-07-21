@@ -13,6 +13,7 @@ var express = require('express'),
 mongoose.connect(
   process.env.MONGOLAB_URI || 'mongodb://localhost/test' ); // plug in the db name you've been using
 
+
 // ------ grabs SECURITY.JS FILE - DB SCHEMA ----///
 var Stock = require('./security')
 
