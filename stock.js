@@ -11,7 +11,7 @@ $(function() {
 //----- TEMPLATE - inputs into html-----//
  $stock = _.template( $("#stockTemplate").html() )
 
-  $.get(baseUrl + '/api/stocks', function(data) {
+  $.get('/api/stocks', function(data) {
     var stocks = data 
 
 
@@ -21,6 +21,9 @@ $(function() {
       $('#stocks').append($stock(yourInput))
     })
 
+ })
+
+  
 //-----EVENT LISTENER-------//
  $('#new-stock').submit(function(event){
     event.preventDefault();
@@ -40,6 +43,6 @@ $(function() {
     })
 
   })
-})
+
 })
 
