@@ -1,41 +1,62 @@
-// require express framework and additional modules
+
+// require frameworks and additional modules--//
 var express = require('express'),
     app = express(),
+    _ = require('underscore'),
+    cors = require('cors'),
     bodyParser = require('body-parser');
     mongoose = require("mongoose"),
-    session = require('express-session');
+    session = require('express-session'); // is this a dup OF LINE 25    
 
-    var Stock = require('./security.js');
 
-// tell app to use bodyParser middleware
+//---- Connection to the DB------------------//
+mongoose.connect(
+  process.env.MONGOLAB_URI || 'mongodb://localhost/test' ); // plug in the db name you've been using
+
+// ------ grabs SECURITY.JS FILE - DB SCHEMA ----///
+var Stock = require('./security')
+
+
+//---tell app to use bodyParser middleware and cors---//
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 
-mongoose.connect(
-  process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
-  'mongodb://localhost/test' // plug in the db name you've been using
-);
+
+app.use(express.static(__dirname));
 
 
-
-// set up root route to respond with 'hello world'
+//------------- Route to home page-----------//
 app.get('/', function (req, res) {
-  res.send(__dirname + 'public/stock.html');
+   var index = __dirname + "/index.html";
+  res.sendFile(index);
 });
 
 
+//---------Route to stocks and grab stocks----//
 app.get('/api/stocks', function (req, res) {
-	var stocks = [
-		{text: "citi"},
-		{text: "citi"},
-		{text: "citi"}
-	]
-	res.json(stocks)
+	console.log(Stock)
+	Stock.find().sort(-_id).exec(function(err, stocks){
+		console.log(stocks);
+	res.json(stocks);
+	})
 })
 
+//---------- POST a new stock to stocks file -----------------//
+app.post('/api/stocks', function(req, res) {
+	var stock = new Stock({
+		text: req.body.text
+	});
 
 
-// listen on port 3000
-app.listen(3000, function () {
-  console.log('ciabatta');
+stock.save(function(err, stock){
+	res.json(stock)
+	});
 });
+//----------listen on port 3000---------------//
+app.listen(process.env.PORT || 3000);
+
+
+
+
+
+

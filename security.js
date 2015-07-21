@@ -1,9 +1,9 @@
-var Schema = mongoose.Schema;
+var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 	
 var StockSchema = new Schema({
-    ticker: String,   
+    text: { type:String, required: true }   
 });
 
 var Stock = mongoose.model('Stock', StockSchema);

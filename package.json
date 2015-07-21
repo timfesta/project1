@@ -20,7 +20,10 @@
     "express": "^4.13.1",
     "express-session": "^1.11.3",
     "mongo": "^0.1.0",
-    "mongoose": "^4.0.8"
+    "mongoose": "^4.0.8",
+    "scripts": {
+    "start": "node server.js"
+}
   },
   "devDependencies": {},
   "description": ""
