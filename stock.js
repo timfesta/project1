@@ -11,8 +11,8 @@ $stock = _.template( $("#stockTemplate").html() )
 
 
 //------GET REQUEST TO SERVER.JS------------//
-$.get('/api/stocks', function(data) {
-    var stocks = data 
+// $.get('/api/stocks', function(data) {
+//     var stocks = data 
 
 
 //---- WHATEVER YOU INPUT => ADD TO LIST ----//
@@ -39,12 +39,12 @@ $('#stocks').prepend($stock(stock))
 
 
 //-----POSTS TO ROUTE API/STOCKS--------------//
-$.post('/api/stocks', stock, function(data) {
-      console.log(data)
-      $('#stocks').prepend($stock(data))
-    })
-  })
-})
+// $.post('/api/stocks', stock, function(data) {
+//       console.log(data)
+//       $('#stocks').prepend($stock(data))
+//     })
+//   })
+// })
 
 
 //----- SEED DATA -----///
@@ -53,3 +53,4 @@ $.post('/api/stocks', stock, function(data) {
 	// 	{text: "citi"},
 	// 	{text: "citi"}
 	// ]
+});

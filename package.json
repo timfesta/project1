@@ -17,13 +17,15 @@
   "homepage": "https://github.com/timfesta/project1#readme",
   "dependencies": {
     "body-parser": "^1.13.2",
+    "cors": "^2.7.1",
     "express": "^4.13.1",
     "express-session": "^1.11.3",
     "mongo": "^0.1.0",
     "mongoose": "^4.0.8",
     "scripts": {
-    "start": "node server.js"
-}
+      "start": "node server.js"
+    },
+    "underscore": "^1.8.3"
   },
   "devDependencies": {},
   "description": ""
