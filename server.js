@@ -27,9 +27,23 @@ app.use(express.static(__dirname));
 
 //------------- Route to home page-----------//
 app.get('/', function (req, res) {
-   var index = __dirname + "/stock.html";
+   var index = __dirname + "/index.html";
   res.sendFile(index);
 });
+
+app.get('/stocks', function (req, res) {
+  var stocks = __dirname + "/stocks.html"; 
+//----- SEED DATA -----///
+	var seeds = [
+		{text: "citi"},
+		{text: "chase"},
+		{text: "BOA"}
+	]
+  res.sendFile(stocks);
+
+
+})
+
 
 
 //---------Route to stocks and grab stocks----//

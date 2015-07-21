@@ -2,8 +2,8 @@ $(function() {
 	console.log("Ello Gubna")
 
 
-// var baseUrl = "http://localhost:3000" // DEV
-  var baseUrl = "https://holidaytrading.herokuapp.com/" // PRD
+   var baseUrl = "http://localhost:3000" // DEV
+// var baseUrl = "https://holidaytrading.herokuapp.com/" // PRD
 
 
 //----- TEMPLATE - inputs into html-----=---//
@@ -29,13 +29,13 @@ $('#new-stock').submit(function (event){
 
 
 //-----GRABBING THE VALUE FROM THE INPUT LINE----//
-var stock = {
+var userInput = {
       text: $('#stock-text').val()
     }
 
 
 //- grabs the data from the input line runs it through template and adds to list--//
-$('#stocks').prepend($stock(stock))
+$('#stocks').prepend($stock(userInput))
 
 
 //-----POSTS TO ROUTE API/STOCKS--------------//
@@ -48,9 +48,9 @@ $('#stocks').prepend($stock(stock))
 
 
 //----- SEED DATA -----///
-	// var stocks = [
-	// 	{text: "citi"},
-	// 	{text: "citi"},
-	// 	{text: "citi"}
-	// ]
+	var stocks = [
+		{text: "citi"},
+		{text: "citi"},
+		{text: "citi"}
+	]
 });
