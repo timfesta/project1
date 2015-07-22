@@ -3,7 +3,10 @@ var mongoose = require('mongoose'),
 
 	
 var StockSchema = new Schema({
-    text: { type:String, required: true }   
+    text: { 
+    	type:String, 
+    	required: true 
+    }   
 });
 
 var Stock = mongoose.model('Stock', StockSchema);

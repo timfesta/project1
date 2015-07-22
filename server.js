@@ -129,25 +129,27 @@ app.get('/stocks', function (req, res) {
 
 
 //---------Route to stocks and grab stocks----//
-// app.get('/api/stocks', function (req, res) {
-// 	console.log(Stock)
-// 	Stock.find().sort(-_id).exec(function(err, stocks){
-// 		console.log(stocks);
-// 	res.json(stocks);
-// 	})
-// })
+app.get('/api/stocks', function (req, res) {
+	console.log(Stock)
+	Stock.find({}).exec(function(err, stocks){
+		console.log(stocks);
+	   res.json(stocks);
+	})
+})
 
 //---------- POST a new stock to stocks file -----------------//
-// app.post('/api/stocks', function(req, res) {
-// 	var stock = new Stock({
-// 		text: req.body.text
-// 	});
+app.post('/api/stocks', function(req, res) {
+
+	var stock = new Stock({
+		text: req.body.text
+	});
 
 
-// stock.save(function(err, stock){
-// 	res.json(stock)
-// 	});
-// });
+  stock.save(function(err, stock){
+	   res.json(stock)
+	});
+
+})
 //----------listen on port 3000---------------//
 app.listen(process.env.PORT || 3000);
 

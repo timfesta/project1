@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "postinstall": "node seed.js",
     "start": "node server.js"
   },
   "repository": {
@@ -23,9 +24,6 @@
     "express-session": "^1.11.3",
     "mongo": "^0.1.0",
     "mongoose": "^4.0.8",
-    "scripts": {
-      "start": "node server.js"
-    },
     "underscore": "^1.8.3"
   },
   "devDependencies": {},
