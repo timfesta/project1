@@ -118,11 +118,11 @@ app.get('/profile', function (req, res) {
 app.get('/stocks', function (req, res) {
   var stocks = __dirname + "/stocks.html"; 
 //----- SEED DATA -----///
-	var seeds = [
-		{text: "citi"},
-		{text: "chase"},
-		{text: "BOA"}
-	]
+	// var seeds = [
+	// 	{text: "citi"},
+	// 	{text: "chase"},
+	// 	{text: "BOA"}
+	// ]
   res.sendFile(stocks);
 })
 
@@ -150,8 +150,9 @@ app.post('/api/stocks', function(req, res) {
 	});
 
 })
+
 //----------listen on port 3000---------------//
-app.listen(process.env.PORT || 3000);
+app.listen(3000);
 
 
 
