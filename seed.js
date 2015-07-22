@@ -6,18 +6,21 @@ mongoose.connect(
 
 var Stock = require("./security");
 
+
 Stock.remove({}, function (err, removedObj) {
 	console.log("REMOVED", removedObj.result.n, "stocks");
 
-	Stock.create({
-		text: "MSFT"
-	}, function (err, stock) {
-		console.log("STOCK CREATED", stock);
+	Stock.create([
+		{
+			text: "MSFT"
+		},
+		{
+			text: "CITI"
+		}
+	], function (){
+		console.log(arguments)
+		mongoose.connection.close()
 	});
 
-	Stock.create({
-		text: "CITI"
-	}, function (err, stock) {
-		console.log("STOCK CREATED", stock);
-	});
+
 })
