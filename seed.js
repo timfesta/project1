@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 
 mongoose.connect(
-	process.env.MONGLAB_URI ||
+	process.env.MONGOLAB_URI ||
 	 "mongodb://localhost/test")
 
 var Stock = require("./security");
