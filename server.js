@@ -73,39 +73,31 @@ app.get('/signup', function (req, res) {
 
 // user submits the signup form
 app.post('/users', function (req, res) {
-
   // grab user data from params (req.body)
   var newUser = req.body.user;
-
-
   // create new user with secure passtext
-User.createSecure(newUser.email, newUser.passtext, function (err, user) {
-  res.send(user);
+  User.createSecure(newUser.email, newUser.passtext, function (err, user) {
+    res.send(user);
+  });
 });
-
 
 // login route (renders login view)
 app.get('/login', function (req, res) {
-  res.sendFile(__dirname + '/public/views/login.html');
+  res.sendFile(__dirname + "/public/views/login.html"); 
 });
 
 
 // user submits the login form
 app.post('/login', function (req, res) {
-
-  // grab user data from params (req.body)
   var userData = req.body.user;
-
-
   // call authenticate function to check if passtext user entered is correct
-User.authenticate(userData.email, userData.passtext, function (err, user) {
-  // saves user id to session
-  req.login(user);
-});
+  User.authenticate(userData.email, userData.passtext, function (err, user) {
+    // saves user id to session
+    req.login(user);
+  });
 
     // redirect to user profile
-    res.redirect('/profile');
-  });
+  res.redirect('/profile');
 });
 
 // user profile page
