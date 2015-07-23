@@ -9,17 +9,11 @@ var express = require('express'),
     _ = require('underscore'),
     // cors = require('cors'),
      
-       
-
-
-//---- Connection to the DB------------------//
+ //---- Connection to the DB------------------//
 mongoose.connect(
-  process.env.MONGOLAB_URI || 'mongodb://localhost/test' ); // plug in the db name you've been using
+  process.env.MONGOLAB_URI || 'mongodb://localhost/securities' ); // plug in the db name you've been using
 
-
-// ------ grabs SECURITY.JS FILE - DB SCHEMA ----///
-var Stock = require('./security')
-
+      
 
 //---tell app to use bodyParser middleware and cors---//
 // app.use(cors())
@@ -57,6 +51,13 @@ app.use('/', function (req, res, next) {
   next();
 });
 
+
+
+// ------ grabs SECURITY.JS FILE - DB SCHEMA ----///
+var Stock = require('./security')
+
+
+
 //------------- Route to home page-----------//
 app.get('/', function (req, res) {
    var index = __dirname + "/index.html";
@@ -76,8 +77,8 @@ app.post('/users', function (req, res) {
   // grab user data from params (req.body)
   var newUser = req.body.user;
 
-  // create new user with secure password
-  User.createSecure(newUser.email, newUser.password, function (err, user) {
+  // create new user with secure passtext
+  User.createSecure(newUser.email, newUser.passtext, function (err, user) {
     res.send(user);
   });
 });
@@ -94,8 +95,8 @@ app.post('/login', function (req, res) {
   // grab user data from params (req.body)
   var userData = req.body.user;
 
-  // call authenticate function to check if password user entered is correct
-  User.authenticate(userData.email, userData.password, function (err, user) {
+  // call authenticate function to check if passtext user entered is correct
+  User.authenticate(userData.email, userData.passtext, function (err, user) {
     // saves user id to session
     req.login(user);
 
@@ -137,19 +138,62 @@ app.get('/api/stocks', function (req, res) {
 	})
 })
 
-//---------- POST a new stock to stocks file -----------------//
-app.post('/api/stocks', function(req, res) {
+//---------- POST a new stock  -----------------//
 
-	var stock = new Stock({
+// create new STOCK
+app.post('/api/stocks', function(req, res) {
+ // create new STOCK with form data (`req.body`)
+	var newStock = new Stock({
 		text: req.body.text
 	});
 
-
-  stock.save(function(err, stock){
-	   res.json(stock)
+//----SAVE STOCK TO DB-----//
+  newStock.save(function (err, savedStock){
+	   res.json(savedStock);
 	});
+});
 
-})
+
+
+// get one stock
+app.get('/api/stocks/:id', function (req, res) {
+  // set the value of the id
+  var targetId = req.params.id;
+
+  // find stock in db by id
+  Stock.findOne({_id: targetId}, function (err, foundStock) {
+    res.json(foundStock);
+  });
+});
+
+// update stock
+app.put('/api/stocks/:id', function (req, res) {
+  // set the value of the id
+  var targetId = req.params.id;
+
+  // find stock in db by id
+  Stock.findOne({_id: targetId}, function (err, foundStock) {
+    // update the stock's text and definition
+    foundStock.text = req.body.text;
+    
+
+    // save updated Stock in db
+    foundStock.save(function (err, savedStock) {
+      res.json(savedStock);
+    });
+  });
+});
+
+// delete stock
+app.delete('/api/stocks/:id', function (req, res) {
+  // set the value of the id
+  var targetId = req.params.id;
+
+  // find stock in db by id and remove
+  Stock.findOneAndRemove({_id: targetId}, function (err, deletedStock) {
+    res.json(deletedStock);
+  });
+});
 //----------listen on port 3000---------------//
 app.listen(process.env.PORT || 3000);
 
