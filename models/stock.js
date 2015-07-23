@@ -9,3 +9,5 @@ var StockSchema = new Schema({
 var Stock = mongoose.model('Stock', StockSchema);
 
 module.exports = Stock;
+
+
