@@ -5,10 +5,10 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require("mongoose"),
     User = require('./models/user'),
-    Stock = require('./security'),
+    Stock = require('./models/stock'),
     session = require('express-session'),
     _ = require('underscore');
-    // cors = require('cors'),
+
      
  //---- Connection to the DB------------------//
 mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/securities'); // plug in the db name you've been using
@@ -25,57 +25,57 @@ app.use(session({
   cookie: { maxAge: 60000 }
 }));
 
- app.use(express.static(__dirname));
+ app.use(express.static(__dirname + "/public"));
 
 // middleware to manage sessions
-// app.use('/', function (req, res, next) {
-//   // saves userId in session for logged-in user
-//   req.login = function (user) {
-//     req.session.userId = user.id;
-//   };
+app.use('/', function (req, res, next) {
+  // saves userId in session for logged-in user
+  req.login = function (user) {
+    req.session.userId = user.id;
+  };
 
-//   // finds user currently logged in based on `session.userId`
-//   req.currentUser = function (callback) {
-//     User.findOne({_id: req.session.userId}, function (err, user) {
-//       req.user = user;
-//       callback(null, user);
-//     });
-//   };
+  // finds user currently logged in based on `session.userId`
+  req.currentUser = function (callback) {
+    User.findOne({_id: req.session.userId}, function (err, user) {
+      req.user = user;
+      callback(null, user);
+    });
+  };
 
   // destroy `session.userId` to log out user
-//   req.logout = function () {
-//     req.session.userId = null;
-//     req.user = null;
-//   };
+  req.logout = function () {
+    req.session.userId = null;
+    req.user = null;
+  };
 
-//   next();
-// });
+  next();
+});
 
 
 
 // ------ grabs SECURITY.JS FILE - DB SCHEMA ----///
-var Stock = require('./security')
+var Stock = require('./models/stock')
 
 
 
 //------------- Route to home page-----------//
 app.get('/', function (req, res) {
-   var index = __dirname + "public/views/index.html";
+   var index = __dirname + "/public/views/index.html";
   res.sendFile(index);
 });
 
 
 //---------ROUTE TO SIGNUPs----------------//
 // signup route with placeholder response
-// app.get('/signup', function (req, res) {
-//   res.send('coming soon');
-// });
+app.get('/signup', function (req, res) {
+  res.send('coming soon');
+});
 
 // user submits the signup form
-// app.post('/users', function (req, res) {
+app.post('/users', function (req, res) {
 
-//   // grab user data from params (req.body)
-//   var newUser = req.body.user;
+  // grab user data from params (req.body)
+  var newUser = req.body.user;
 
 
   // create new user with secure passtext
@@ -84,17 +84,17 @@ User.createSecure(newUser.email, newUser.passtext, function (err, user) {
 });
 
 
-// // login route (renders login view)
-// app.get('/login', function (req, res) {
-//   res.sendFile(__dirname + '/public/views/login.html');
-// });
+// login route (renders login view)
+app.get('/login', function (req, res) {
+  res.sendFile(__dirname + '/public/views/login.html');
+});
 
 
 // user submits the login form
-// app.post('/login', function (req, res) {
+app.post('/login', function (req, res) {
 
-//   // grab user data from params (req.body)
-//   var userData = req.body.user;
+  // grab user data from params (req.body)
+  var userData = req.body.user;
 
 
   // call authenticate function to check if passtext user entered is correct
@@ -103,25 +103,25 @@ User.authenticate(userData.email, userData.passtext, function (err, user) {
   req.login(user);
 });
 
-//     // redirect to user profile
-//     res.redirect('/profile');
-//   });
-// });
+    // redirect to user profile
+    res.redirect('/profile');
+  });
+});
 
 // user profile page
-// app.get('/profile', function (req, res) {
-//   // finds user currently logged in
-//   req.currentUser(function (err, user) {
-//     res.send('Welcome ' + user.email);
-//   });
-// });
+app.get('/profile', function (req, res) {
+  // finds user currently logged in
+  req.currentUser(function (err, user) {
+    res.send('Welcome ' + user.email);
+  });
+});
 
 
 
 //---------ROUTE TO STOCKS PAGE-----------//
 
 app.get('/stocks', function (req, res) {
-  var stocks = __dirname + "/stocks.html"; 
+  var stocks = __dirname + "/public/views/stocks.html"; 
   res.sendFile(stocks);
 });
 
@@ -150,23 +150,6 @@ app.post('/api/stocks', function(req, res) {
   stock.save(function(err, stock) {
     res.send(stock);
   });
-
-
-//   stock.save(function(err, stock){
-// 	   res.json(stock)
-// 	});
-
-
-
-  // Stock.create({ text: "CITI" }, function (err, stock) {
-  //   console.log("STOCK CREATED", stock);
-  //   res.send(stock);
-  // });
-  // console.log(newStock)
-  //----SAVE STOCK TO DB-----//
- //  newStock.save(function (err, savedStock){
-	//    res.json(savedStock);
-	// });
 });
 
 
