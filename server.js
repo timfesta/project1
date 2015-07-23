@@ -5,6 +5,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     mongoose = require("mongoose"),
     User = require('./models/user'),
+    Stock = require('./security'),
     session = require('express-session');
     _ = require('underscore'),
     // cors = require('cors'),
@@ -118,39 +119,44 @@ app.get('/profile', function (req, res) {
 //---------ROUTE TO STOCKS PAGE-----------//
 app.get('/stocks', function (req, res) {
   var stocks = __dirname + "/stocks.html"; 
-//----- SEED DATA -----///
-	var seeds = [
-		{text: "citi"},
-		{text: "chase"},
-		{text: "BOA"}
-	]
   res.sendFile(stocks);
-})
+});
 
 
 
 //---------Route to stocks and grab stocks----//
 app.get('/api/stocks', function (req, res) {
-	console.log(Stock)
 	Stock.find({}).exec(function(err, stocks){
-		console.log(stocks);
-	   res.json(stocks);
-	})
-})
+     res.send(stocks);
+	});
+});
 
 //---------- POST a new stock  -----------------//
 
 // create new STOCK
 app.post('/api/stocks', function(req, res) {
  // create new STOCK with form data (`req.body`)
-	var newStock = new Stock({
-		text: req.body.text
-	});
+	var stockText = req.body.text;
 
-//----SAVE STOCK TO DB-----//
-  newStock.save(function (err, savedStock){
-	   res.json(savedStock);
-	});
+  var stock = new Stock({
+    text: stockText
+  });
+
+  stock.save(function(err, stock) {
+    res.send(stock);
+  });
+
+
+
+  // Stock.create({ text: "CITI" }, function (err, stock) {
+  //   console.log("STOCK CREATED", stock);
+  //   res.send(stock);
+  // });
+  // console.log(newStock)
+  //----SAVE STOCK TO DB-----//
+ //  newStock.save(function (err, savedStock){
+	//    res.json(savedStock);
+	// });
 });
 
 
