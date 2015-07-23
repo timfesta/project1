@@ -166,6 +166,15 @@ app.get('/api/stocks/:id', function (req, res) {
   });
 });
 
+
+// get all stocks
+app.get('/api/stocks', function (req, res) {
+  // find all stocks in db
+  Stock.find(function (err, stocks) {
+    res.json(stocks);
+  });
+});
+
 // update stock
 app.put('/api/stocks/:id', function (req, res) {
   // set the value of the id
