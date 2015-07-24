@@ -25,7 +25,7 @@ app.use(session({
   cookie: { maxAge: 60000 }
 }));
 
- app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public"));
 
 // middleware to manage sessions
 app.use('/', function (req, res, next) {
@@ -66,7 +66,6 @@ app.get('/', function (req, res) {
 
 
 //---------ROUTE TO SIGNUPs----------------//
-// signup route with placeholder response
 app.get('/signup', function (req, res) {
   res.send('coming soon');
 });
@@ -92,10 +91,8 @@ app.post('/login', function (req, res) {
   var userData = req.body.user;
   // call authenticate function to check if passtext user entered is correct
   User.authenticate(userData.email, userData.passtext, function (err, user) {
-    // saves user id to session
-    req.login(user);
+      req.login(user);  
   });
-
     // redirect to user profile
   res.redirect('/profile');
 });
