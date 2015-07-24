@@ -6,7 +6,7 @@
 
   <!-- bootstrap css -->
   <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="/public/views/login.css">
+  <link rel="stylesheet" type="text/css" href="styles/style.css">
 
   <title>Login</title>
 </head>
@@ -56,10 +56,10 @@
 
             <!-- the `name` HTML attribute sends form data to the server -->
             <!-- setting the names `user[email]` and `user[password]` allows us to use `req.body.user` on the server-side, which gives us a user object with `email` and `password` keys -->
-            <input type="text" name="user[email]" class="form-control" placeholder="Email" autofocus>
+            <input type="text" name="user[email]" class="form-control" placeholder="Email" required>
           </div>
           <div class="form-group">
-            <input type="password" name="user[password]" class="form-control" placeholder="Password">
+            <input type="password" name="user[password]" class="form-control" placeholder="Password" required>
           </div>
           <div class="form-group">
             <input type="submit" value="Log In" class="btn btn-primary">

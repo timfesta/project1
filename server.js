@@ -11,7 +11,7 @@ var express = require('express'),
 
      
  //---- Connection to the DB------------------//
-mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/securities'); // plug in the db name you've been using
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost/ryanshim'); // plug in the db name you've been using
 
       
 
@@ -130,10 +130,12 @@ app.get('/api/stocks', function (req, res) {
 // create new STOCK
 app.post('/api/stocks', function(req, res) {
  // create new STOCK with form data (`req.body`)
-	var stockText = req.body.text;
+	var stockText = req.body.symbol;
+  var changeText = req.body.Change;
 
   var stock = new Stock({
-    text: stockText
+    symbol: stockText,
+    Change: changeText
   });
 
   stock.save(function(err, stock) {
