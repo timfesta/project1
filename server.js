@@ -75,7 +75,7 @@ app.post('/users', function (req, res) {
   // grab user data from params (req.body)
   var newUser = req.body.user;
   // create new user with secure passtext
-  User.createSecure(newUser.email, newUser.passtext, function (err, user) {
+  User.createSecure(newUser.email, newUser.password, function (err, user) {
     res.send(user);
   });
 });
@@ -90,11 +90,18 @@ app.get('/login', function (req, res) {
 app.post('/login', function (req, res) {
   var userData = req.body.user;
   // call authenticate function to check if passtext user entered is correct
-  User.authenticate(userData.email, userData.passtext, function (err, user) {
-      req.login(user);  
+  User.authenticate(userData.email, userData.password, function (err, user) {
+    if (err) {
+      res.status(403).send(err);
+      console.log(err);
+    } else {
+      req.login(user);
+      res.status(201).send(user);
+      console.log(userData.email + " is logged in");
+      // redirect to user profile
+      res.redirect('/profile');
+    }  
   });
-    // redirect to user profile
-  res.redirect('/profile');
 });
 
 // user profile page

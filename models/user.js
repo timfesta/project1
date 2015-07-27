@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
   // define user schema
 var UserSchema = new Schema({
   email: String,
-  passwordDigest: String
+  password: String
 });
 
 
@@ -25,7 +25,7 @@ UserSchema.statics.createSecure = function (email, password, callback) {
       // create the new user (save to db) with hashed password
       that.create({
         email: email,
-        passwordDigest: hash
+        password: hash
       }, callback);
     });
   });
@@ -39,19 +39,21 @@ UserSchema.statics.authenticate = function (email, password, callback) {
 
     // throw error if can't find user
     if (user === null) {
-      throw new Error('Can\'t find user with email ' + email);
+      callback('Cannot find username ' + email, null);
 
     // if found user, check if password is correct
     } else if (user.checkPassword(password)) {
       callback(null, user);
+    } else {
+      callback("Incorrect password.", user);
     }
   });
 };
 
-// compare password user enters with hashed password (`passwordDigest`)
+// compare password user enters with hashed password (`password`)
 UserSchema.methods.checkPassword = function (password) {
-  // run hashing algorithm (with salt) on password user enters in order to compare with `passwordDigest`
-  return bcrypt.compareSync(password, this.passwordDigest);
+  // run hashing algorithm (with salt) on password user enters in order to compare with `password`
+  return bcrypt.compareSync(password, this.password);
 };
 
 

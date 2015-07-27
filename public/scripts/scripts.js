@@ -7,7 +7,7 @@ $(function() {
 
 
   //----- TEMPLATE - inputs into html-----=---//
-  var $stock = _.template($("#stockTemplate").html())
+  var $stock = _.template($("#stockTemplate").html());
 
 
   //--- Client makes a request to server "i need the stocks"---///
