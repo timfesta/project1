@@ -7,10 +7,18 @@
 .page-header {
 	padding-bottom: 0px;
 	border-bottom: 0px;
-	color: #fff;
+	/*color: #fff;*/
 	text-align: center;
 }
 
 .navbar {
 	margin-bottom: 0px;
+}
+	
+#ciabatta {
+	margin-bottom: 0px;
+}
+
+#button {
+	background: #0D0D0D;
 }
